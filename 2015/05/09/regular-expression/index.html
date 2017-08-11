@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="正则," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="正则表达式（Regular Expression）使用单个字符串来描述、匹配一系列符合某个句法规则的字符串。正则表达式通常被用来检索、替换符合模式的文本。正则表达式最早出现在出现在理论计算机科学的自动控制理论中，后来被Unix系统上的编辑器ed使用，并最终发展为grep命令。最后，正则表达式被广泛使用在大多数编程语言中。">
+<meta name="keywords" content="正则">
+<meta property="og:type" content="article">
+<meta property="og:title" content="正则表达式语法小结">
+<meta property="og:url" content="https://xeostream.github.io/2015/05/09/regular-expression/index.html">
+<meta property="og:site_name" content="xeostream">
+<meta property="og:description" content="正则表达式（Regular Expression）使用单个字符串来描述、匹配一系列符合某个句法规则的字符串。正则表达式通常被用来检索、替换符合模式的文本。正则表达式最早出现在出现在理论计算机科学的自动控制理论中，后来被Unix系统上的编辑器ed使用，并最终发展为grep命令。最后，正则表达式被广泛使用在大多数编程语言中。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-08-09T00:31:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="正则表达式语法小结">
+<meta name="twitter:description" content="正则表达式（Regular Expression）使用单个字符串来描述、匹配一系列符合某个句法规则的字符串。正则表达式通常被用来检索、替换符合模式的文本。正则表达式最早出现在出现在理论计算机科学的自动控制理论中，后来被Unix系统上的编辑器ed使用，并最终发展为grep命令。最后，正则表达式被广泛使用在大多数编程语言中。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://xeostream.github.io/2015/05/09/regular-expression/"/>
+
+
+
+
+
+  <title>正则表达式语法小结 | xeostream</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xeostream</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xeostream.github.io/2015/05/09/regular-expression/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xeostream">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xeostream">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">正则表达式语法小结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-05-09T23:11:20+08:00">
+                2015-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习/" itemprop="url" rel="index">
+                    <span itemprop="name">学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>正则表达式（Regular Expression）使用单个字符串来描述、匹配一系列符合某个句法规则的字符串。正则表达式通常被用来检索、替换符合模式的文本。正则表达式最早出现在出现在理论计算机科学的自动控制理论中，后来被Unix系统上的编辑器ed使用，并最终发展为grep命令。最后，正则表达式被广泛使用在大多数编程语言中。<br><a id="more"></a></p>
+<h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><p>一个正则表达式通常被称为一个模式，被用来描述、匹配一系列符合某个句法规则的字符串。正则表达式语法包括：</p>
+<ul>
+<li><strong>字面值</strong>，没有任何转义，查找的对象就是其本身。比如正则表达式abc，匹配的结果就是a、b、c三个字母连在一起的字符串。</li>
+<li><strong><code>.</code></strong>，匹配除换行符外的任意字符。</li>
+<li><code>[]</code>，中括号这种形式被称为字符类。在正则表达式中，一些字符被<code>[]</code>符号括住，它们表示被括号中属性约束的字符。需要注意两点：<ol>
+<li>在字符类中字符的顺序和重复性是没有意义的；</li>
+<li><code>.</code>在字符类中表示的就是其本身。</li>
+</ol>
+</li>
+<li><strong><code>-</code></strong>，为区间符号，表示在给定的范围内取值。<code>[0123456789]</code>与<code>[0-9]</code>是相同的，区间的范围应该是有意义的，<code>[a-1]</code>虽然没有语法错误，但是没有任何意义。区间左右两端对应的是字符，并不是数字，<code>[2-41]</code>?</li>
+<li><strong><code>^</code></strong>，为取反符号，取反符号必须在<code>[]</code>中使用，取反符号是将后面的整体作为取反条件的。</li>
+<li><strong><code>{}</code></strong>，为乘法集，以前面的整体作为乘法条件。乘法集区间有如下特点：<ol>
+<li>乘法集的“越长越好”属性，对于字符串<code>aaaabb</code>，正则表达式<code>a{2,4}</code>会匹配<code>aaaa</code>；</li>
+<li>乘法集的“全部获取”属性，对于字符串<code>aabbaaaab</code>，正则表达式<code>a{2,4}</code>会匹配<code>aa</code>和<code>aaaa</code>；</li>
+<li>乘法集区间支持开区间，<code>a{1,}</code>是合法的。</li>
+</ol>
+</li>
+<li><strong><code>?</code></strong>，为判断符号，同<code>{0,1}</code>。当该字符紧跟在任何一个其他限制符（<code>*</code>,<code>+</code>,<code>?</code>，<code>{n}</code>，<code>{n,}</code>，<code>{n,m}</code>）后面时，匹配模式是非贪婪的。非贪婪模式尽可能少的匹配所搜索的字符串，而默认的贪婪模式则尽可能多的匹配所搜索的字符串。例如，对于字符串<code>oooo</code>，<code>o+?</code>将匹配单个<code>o</code>，而<code>o+</code>将匹配所有<code>o</code>。</li>
+<li><strong><code>*</code></strong>，为通配符号，同<code>{0,}</code>。</li>
+<li><strong><code>+</code></strong>，同<code>{1,}</code>。</li>
+<li><strong><code>|</code></strong>，为或符号，表示或的关系,<code>abc|edf</code>表示匹配<code>abc</code>或者<code>edf</code>。</li>
+<li><strong><code>()</code></strong>，表示组合，也可以理解为高优先级匹配。</li>
+<li><strong><code>\b</code></strong>，表示单词的边界，也就是指单词和空格间的位置。例如，<code>er\b</code>可以匹配<code>never</code>中的<code>er</code>，但不能匹配<code>verb</code>中的<code>er</code>。</li>
+<li><strong><code>\B</code></strong>，匹配非单词边界。<code>er\B</code>能匹配<code>verb</code>中的<code>er</code>，但不能匹配<code>never</code>中的<code>er</code>。</li>
+<li><strong><code>cx</code></strong>，匹配由x指明的控制字符。例如，<code>\cM</code>匹配一个Control-M或回车符。x的值必须为A-Z或a-z之一。否则，将c视为一个原义的c字符。</li>
+<li><strong><code>\d</code></strong>，匹配一个数字字符。等价于<code>[0-9]</code>。</li>
+<li><strong><code>\D</code></strong>，匹配一个非数字字符。等价于<code>[^0-9]</code>。</li>
+<li><strong><code>\f</code></strong>，匹配一个换页符。等价于<code>\x0c</code>和<code>\cL</code>。</li>
+<li><strong><code>\n</code></strong>，匹配一个换行符。等价于<code>\x0a</code>和<code>\cJ</code>。</li>
+<li><strong><code>\r</code></strong>，匹配一个回车符。等价于<code>\x0d</code>和<code>\cM</code>。</li>
+<li><strong><code>\s</code></strong>，匹配任何空白字符，包括空格、制表符、换页符等等。等价于<code>[ \f\n\r\t\v]</code>。</li>
+<li><strong><code>\S</code></strong>，匹配任何非空白字符。等价于<code>[^ \f\n\r\t\v]</code>。</li>
+<li><strong><code>\t</code></strong>，匹配一个制表符。等价于<code>\x09</code>和<code>\cI</code>。</li>
+<li><strong><code>\v</code></strong>，匹配一个垂直制表符。等价于<code>\x0b</code>和<code>\cK</code>。</li>
+<li><strong><code>\w</code></strong>，匹配包括下划线的任何单词字符。等价于<code>[A-Za-z0-9_]</code>。</li>
+<li><strong><code>\W</code></strong>，匹配任何非单词字符。等价于<code>[^A-Za-z0-9_]</code>。</li>
+<li><strong><code>\xn</code></strong>，匹配n，其中n为十六进制转义值。十六进制转义值必须为确定的两个数字长。例如，<code>\x41</code>匹配<code>A</code>。正则表达式中可以使用ASCII编码。</li>
+<li><strong><code>^$</code></strong>，<strong><code>^</code></strong>表示行的开头，<code>$</code>表示行的结尾。</li>
+<li><strong><code>\</code></strong>，转义字符。</li>
+</ul>
+<h2 id="高（奇）级（技）语（淫）法（巧）"><a href="#高（奇）级（技）语（淫）法（巧）" class="headerlink" title="高（奇）级（技）语（淫）法（巧）"></a>高（奇）级（技）语（淫）法（巧）</h2><p>下面介绍的是一些正则表达式中比较生僻，但是也非常有用的用法。</p>
+<ul>
+<li><strong><code>(pattern)</code></strong>，匹配pattern并获取这一匹配的子字符串。该子字符串用于向后引用。所获取的匹配可以从产生的Matches集合得到。</li>
+<li><strong><code>(?:pattern)</code></strong>，匹配pattern但不获取匹配的子字符串，也就是说这是一个非获取匹配，不存储匹配的子字符串用于向后引用。这在使用或字符<code>(|)</code>来组合一个模式的各个部分是很有用。例如<code>industr(?:y|ies)</code>就是一个比<code>industry|industries</code>更简略的表达式。</li>
+<li><strong><code>(?=pattern)</code></strong>，<strong>正向肯定预查</strong>，在任何匹配pattern的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如，<code>Windows(?=95|98|NT|2000)</code>能匹配<code>Windows2000</code>中的<code>Windows</code>，但不能匹配<code>Windows3.1</code>中的<code>Windows</code>。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。</li>
+<li><strong><code>(?!pattern)</code></strong>，<strong>正向否定预查</strong>，在任何不匹配pattern的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如<code>Windows(?!95|98|NT|2000)</code>能匹配<code>Windows3.1</code>中的<code>Windows</code>，但不能匹配<code>Windows2000</code>中的<code>Windows</code>。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始</li>
+<li><strong><code>(?&lt;=pattern)</code></strong>，<strong>反向肯定预查</strong>，与正向肯定预查类似，只是方向相反。例如，<code>(?&lt;=95|98|NT|2000)Windows</code>能匹配<code>2000Windows</code>中的<code>Windows</code>，但不能匹配<code>3.1Windows</code>中的<code>Windows</code>。</li>
+<li><strong><code>(?&lt;!pattern)</code></strong>，<strong>反向否定预查</strong>，与正向否定预查类似，只是方向相反。例如<code>(?&lt;!95|98|NT|2000)Windows</code>能匹配<code>3.1Windows</code>中的<code>Windows</code>，但不能匹配<code>2000Windows</code>中的<code>Windows</code>。</li>
+</ul>
+<h2 id="贪婪匹配和懒惰匹配"><a href="#贪婪匹配和懒惰匹配" class="headerlink" title="贪婪匹配和懒惰匹配"></a>贪婪匹配和懒惰匹配</h2><p>当正则表达式中包含能接受重复的限定符时，在使整个表达式能得到匹配的前提下，通常的行为是匹配尽可能多的字符。以<code>a.*b</code>为例，它会匹配最长的以<code>a</code>开始，以<code>b</code>结束的字符串。如果用它来搜索<code>aabab</code>的话，会匹配整个字符串，这被称为<strong>贪婪匹配</strong>。</p>
+<p>但是有时我们需要匹配尽可能少的字符-<strong>懒惰匹配</strong>。贪婪匹配可以转化为懒惰匹配，只需要在表达式中增加一个问号<code>？</code>。这样<code>.*?</code>就意味着匹配任意数量的重复，但是在能使匹配成功的前提下使用最少的重复。<code>a.*?b</code>匹配最短的，以<code>a</code>开始，以<code>b</code>结束的字符串。如果把它用于匹配<code>aabab</code>的话，会匹配<code>aab</code>和<code>ab</code>。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="http://zh.wikipedia.org/zh/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F" target="_blank" rel="external">正则表达式-维基百科</a></li>
+<li><a href="http://deerchao.net/tutorials/regex/regex.htm" target="_blank" rel="external">正则表达式30分钟入门教程</a></li>
+<li><a href="http://msdn.microsoft.com/zh-cn/library/ae5bf541(v=vs.100\" target="_blank" rel="external">MSDN正则表达式语法介绍</a>.aspx)</li>
+</ul>
+<p>声明：欢迎转载，请注明出处。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/正则/" rel="tag"># 正则</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/11/10/kmp/" rel="next" title="字符串匹配算法－KMP理解">
+                <i class="fa fa-chevron-left"></i> 字符串匹配算法－KMP理解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/05/17/java8/" rel="prev" title="Java8入门">
+                Java8入门 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="xeostream" />
+          <p class="site-author-name" itemprop="name">xeostream</p>
+           
+              <p class="site-description motion-element" itemprop="description">stay folish, stay hungry</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xeostream" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本语法"><span class="nav-number">1.</span> <span class="nav-text">基本语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高（奇）级（技）语（淫）法（巧）"><span class="nav-number">2.</span> <span class="nav-text">高（奇）级（技）语（淫）法（巧）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#贪婪匹配和懒惰匹配"><span class="nav-number">3.</span> <span class="nav-text">贪婪匹配和懒惰匹配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xeostream</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

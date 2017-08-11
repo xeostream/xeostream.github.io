@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Java里所有类都继承自Object类，可以说Object类是Java世界的基石，奠定了Java运行的基调。Object类有一些方法，约定了所有Java类需要遵循的规范。今天我们就来分析一下Java Object（以下都有分析均基于JDK7）。">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java Object解析">
+<meta property="og:url" content="https://xeostream.github.io/2017/08/08/Object/index.html">
+<meta property="og:site_name" content="xeostream">
+<meta property="og:description" content="Java里所有类都继承自Object类，可以说Object类是Java世界的基石，奠定了Java运行的基调。Object类有一些方法，约定了所有Java类需要遵循的规范。今天我们就来分析一下Java Object（以下都有分析均基于JDK7）。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-08-11T06:00:15.287Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java Object解析">
+<meta name="twitter:description" content="Java里所有类都继承自Object类，可以说Object类是Java世界的基石，奠定了Java运行的基调。Object类有一些方法，约定了所有Java类需要遵循的规范。今天我们就来分析一下Java Object（以下都有分析均基于JDK7）。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://xeostream.github.io/2017/08/08/Object/"/>
+
+
+
+
+
+  <title>Java Object解析 | xeostream</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xeostream</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xeostream.github.io/2017/08/08/Object/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xeostream">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xeostream">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java Object解析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-08T22:29:15+08:00">
+                2017-08-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习/" itemprop="url" rel="index">
+                    <span itemprop="name">学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Java里所有类都继承自Object类，可以说Object类是Java世界的基石，奠定了Java运行的基调。Object类有一些方法，约定了所有Java类需要遵循的规范。今天我们就来分析一下Java Object（以下都有分析均基于JDK7）。<br><a id="more"></a><br>首先Object类有以下这些方法：</p>
+<ul>
+<li>Object()</li>
+<li>getClass()</li>
+<li>hashCode()</li>
+<li>equals(Object obj)</li>
+<li>clone()</li>
+<li>toString()</li>
+<li>notify()</li>
+<li>notifyAll()</li>
+<li>wait(long timeout)</li>
+<li>wait(long timeout, int nanos)</li>
+<li>wait()</li>
+<li>finalize()</li>
+</ul>
+<p>其中除了clone方法和finalize方法是protected，其他方法都是public的。这个修饰的关键字是有一些讲究的，在下面说明。</p>
+<h1 id="Object"><a href="#Object" class="headerlink" title="Object()"></a>Object()</h1><p>Object类只有一个默认构造方法，就是Object()。Java所有类在构造实例时都会先调用Object的默认构造方法。</p>
+<h1 id="getClass"><a href="#getClass" class="headerlink" title="getClass()"></a>getClass()</h1><p>getClass方法算是Object类比较重要的方法，返回结果是对象运行时的类型。Java反射机制就是基于Class类，根据反射机制，我们可以获取类的实例，执行类的方法或者获取类的属性值。可以说有了Class，就可以控制这个类的一切。</p>
+<h1 id="hashCode"><a href="#hashCode" class="headerlink" title="hashCode()"></a>hashCode()</h1><p>返回对象的hash值。这个值的意义很重大，代表着对象在内存中的地址，也是对象的唯一标示。<br>hashCode()有以下规范：</p>
+<ul>
+<li>在Java应用运行中，如果对象的equals方法用到的字段值没有发生变化，则多次调用hashCode方法应该返回同样的整数值。但是同一个应用在两次运行之中，同一个对象的hashCode方法返回值不需要保持一致；</li>
+<li>如果两个对象调用equals方法比较为true，则两个对象的hashCode方法返回值也应该相同；</li>
+<li>没有强制要求，如果两个对象调用equals方法比较为false，则两个对象的hashCode方法返回值必须不同。但是请注意，不同对象生成不同的hash值可能会提高hash表的性能；</li>
+</ul>
+<h1 id="equals-Object-obj"><a href="#equals-Object-obj" class="headerlink" title="equals(Object obj)"></a>equals(Object obj)</h1><p>表明两个对象是否相等。<br>equals方法在非null对象上实现了相等关系：</p>
+<ul>
+<li>自反性(reflexive)：对于任意非null的对象x，x.equals(x)应该返回true；</li>
+<li>对称性(symmetric)：对于任意非null的对象x／y，如果y.equals(x)返回true，则x.equals(y)应该返回true；</li>
+<li>传递性(transitive)：对于任意非null的对象x、y和z,如果x.equals(y)返回true且y.equals(z)返回true,则x.equals(z)应该返回true；</li>
+<li>一致性(consistent)：对于任意非null的对象x、y，如果在equals方法被使用的字段属性没有变化，多次调用x.equals(y)返回的应该是同样的结果；</li>
+<li>对于任意非null对象x，x.equals(null)总是返回false；</li>
+</ul>
+<p>Object类的equals方法实现了对象中大部分可能出现的可识别的相等关系，即对于任意非null的x、y，如果x==y=true，则x.equals(y)应该返回true。</p>
+<p>PS：为了维护hashCode方法的规范-相等的对象必须有相同的hash值，重写equals方法时必须要同时重写hashCode方法。</p>
+<p>这边先埋个伏笔，为什么Java规范中总是说重写equals方法同时需要重写hashCode呢，我们在文末解开这个谜题。</p>
+<h1 id="clone"><a href="#clone" class="headerlink" title="clone()"></a>clone()</h1><p>创建并返回对象的副本，副本的精确含义与对象的类型有关。</p>
+<p>一般来说，clone方法通过调用super.clone方法获取返回的副本，如果当前调用类及其父类(除了Object)都遵循这个规范，则x.clone().getClass() == x.getClass() = true。</p>
+<p>一般来说，clone方法返回的副本对象应该和当前对象保持独立。为达成这个目标，需要修改super.clone方法返回的副本对象的字段。这意味着如果拷贝一个可变对象且对象包含复杂结构的子对象,则需要用子对象拷贝的副本引用替换副本对象中的引用。如果一个类只包含基本类型和不可变对象的引用，则不需要替换super.clone返回副本对象的字段。</p>
+<p>Object类的clone方法执行特定的克隆操作。首先，如果这个类没有实现Cloneable接口，clone方法会抛出<code>CloneNotSupportedException</code>异常。要说明的是数组被认为是实现Cloneable接口且一个类型是T[]的数组clone方法返回的对象也是T[]类型的。对象的clone方法返回的是新创建的副本对象，副本对象的字段都是通过现有对象字段组装而来不是这些字段的克隆副本，所以clone方法本质是浅拷贝而不是深拷贝操作。</p>
+<p>Object类并未实现Cloneable接口，所以在运行时调用Object对象的clone方法会抛出异常。</p>
+<h1 id="toString-NaN"><a href="#toString-NaN" class="headerlink" title="toString()"></a>toString()</h1><p>返回对象的字符串表示。总的来说，toString方法返回一个通过文本化表达对象的字符串。返回结果应该是简明但又足够明确、方便阅读的表达方式，Java官方推荐所有的子类都重写toString方法。</p>
+<p>Object类的toString方法返回值由对象的类名、@字符和十六进制对象的hash值构成，即逻辑是：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">getClass().getName() + <span class="string">'@'</span> + Integer.toHexString(hashCode())</div></pre></td></tr></table></figure></p>
+<h1 id="notify"><a href="#notify" class="headerlink" title="notify()"></a>notify()</h1><p>唤醒一个正在等待当前对象监视器的线程。如果有多个线程等待当前对象，那么会随机唤醒其中一个线程。当线程被调用wait方法，则线程会等待当前对象的监视器。</p>
+<p>唤醒不代表可以立即执行，被唤醒的线程需要等待当前线程解除对象锁才能继续处理。被唤醒的线程和其他线程一样公平的竞争对象锁，不会因为被唤醒有特殊对待。</p>
+<p>只有已经获取对象监视器的线程才能调用notify方法，线程可以通过三种方式获取对象监视器：</p>
+<ul>
+<li>执行对象的同步实例方法；</li>
+<li>执行对象的同步代码块；</li>
+<li>对于Class类型的对象，执行类的同步静态方法；</li>
+</ul>
+<h1 id="notifyAll"><a href="#notifyAll" class="headerlink" title="notifyAll()"></a>notifyAll()</h1><p>唤醒所有等待对象监视器的线程。所有被唤醒的线程等待当前线程解除对象锁之后继续处理，所有被唤醒的线程和其他线程一样公平的竞争对象锁。</p>
+<p>和notify方法一样，只有已经获取对象监视器的线程可以调用notifyAll方法。</p>
+<h1 id="wait-long-timeout"><a href="#wait-long-timeout" class="headerlink" title="wait(long timeout)"></a>wait(long timeout)</h1><p>将导致当前线程等待，直到其他线程调用对象的notify或notifyAll方法，或者等待到指定的时间。</p>
+<p>当前线程必须占有对象监视器。</p>
+<p>wait方法会将当前线程(T)放到等待对象监视器的集合中，并且解除当前线程对对象的所有同步请求。线程T将一直保持休眠，不接受线程调度管理。除非以下条件出现：</p>
+<ul>
+<li>其他线程调用notify方法且线程T被随机选中唤醒；</li>
+<li>其他线程调用notifyAll方法；</li>
+<li>其他线程中断了线程T；</li>
+<li>线程等待时间超过指定时间后；</li>
+</ul>
+<p>线程T退出等待状态，参与线程调度，与其他线程平等竞争对象锁的所有权。</p>
+<h1 id="wait-long-timeout-int-nanos"><a href="#wait-long-timeout-int-nanos" class="headerlink" title="wait(long timeout, int nanos)"></a>wait(long timeout, int nanos)</h1><p>此方法类似于wait(long timeout)方法，但是允许更精准的超时时间控制。超时时间的纳秒表达式为<code>1000000*timeout+nanos</code>。</p>
+<h1 id="wait"><a href="#wait" class="headerlink" title="wait()"></a>wait()</h1><p>相当于wait(0)。</p>
+<h1 id="finalize"><a href="#finalize" class="headerlink" title="finalize()"></a>finalize()</h1><p>当Java的垃圾回收器确认不存在此对象的引用时，垃圾回收器会调用对象的finalize方法。Object类的finalize方法没有任何逻辑，子类可以重写finalize方法以处理系统资源或执行其他的清理。</p>
+<p>finalize的一般规约是：当JVM确定任何未终结的线程不存在任何访问到此对象的方式时，JVM会调用对象的finalize方法。finalize方法本身不限制执行任何逻辑，甚至可以让其他线程访问到此对象，避免对象被垃圾回收。但finalize方法的目的一般是在对象会回收之前做一些系统资源清理的动作。</p>
+<p>JVM可以保证最多只会调用一次对象的finalize方法，所以如果finalize方法执行中抛出了异常，那么finalize方法将会终止。此时，对象的状态不可知，JVM也不会继续回收这个对象，如果这时对象被调用，可能会无法预知的异常。</p>
+<h1 id="彩蛋：为什么所有的Java规范都说重写equals的话，必须重写hashCode？"><a href="#彩蛋：为什么所有的Java规范都说重写equals的话，必须重写hashCode？" class="headerlink" title="彩蛋：为什么所有的Java规范都说重写equals的话，必须重写hashCode？"></a>彩蛋：为什么所有的Java规范都说重写equals的话，必须重写hashCode？</h1><p>原因是对于Object类来说，equals方法和hashCode方法表达的是对象在不同层面的信息，equals方法比较的是对象的属性特征，比如某个参数，两个对象是否相同；hashCode方法表达的是对象在内存中存储的地址。目前，Java的官方库中既有根据equals方法判断对象是否相等，也有根据hashCode方法计算的值是否相同来比较对象。比如说HashMap，HashMap在put时，首先根据key的hashCode计算key在数组里的索引，然后判断数组对应位置上是否已经有值，没有值则创建链表直接设置；有值则遍历链表元素，调用equals方法判断对象是否相等，不相等的话则将value加到链表末尾。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/15/java-aes/" rel="next" title="Linux系统Java语言AES加解密失败">
+                <i class="fa fa-chevron-left"></i> Linux系统Java语言AES加解密失败
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="xeostream" />
+          <p class="site-author-name" itemprop="name">xeostream</p>
+           
+              <p class="site-description motion-element" itemprop="description">stay folish, stay hungry</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/xeostream" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Object"><span class="nav-number">1.</span> <span class="nav-text">Object()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#getClass"><span class="nav-number">2.</span> <span class="nav-text">getClass()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hashCode"><span class="nav-number">3.</span> <span class="nav-text">hashCode()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#equals-Object-obj"><span class="nav-number">4.</span> <span class="nav-text">equals(Object obj)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#clone"><span class="nav-number">5.</span> <span class="nav-text">clone()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#toString-NaN"><span class="nav-number">6.</span> <span class="nav-text">toString()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#notify"><span class="nav-number">7.</span> <span class="nav-text">notify()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#notifyAll"><span class="nav-number">8.</span> <span class="nav-text">notifyAll()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#wait-long-timeout"><span class="nav-number">9.</span> <span class="nav-text">wait(long timeout)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#wait-long-timeout-int-nanos"><span class="nav-number">10.</span> <span class="nav-text">wait(long timeout, int nanos)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#wait"><span class="nav-number">11.</span> <span class="nav-text">wait()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#finalize"><span class="nav-number">12.</span> <span class="nav-text">finalize()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#彩蛋：为什么所有的Java规范都说重写equals的话，必须重写hashCode？"><span class="nav-number">13.</span> <span class="nav-text">彩蛋：为什么所有的Java规范都说重写equals的话，必须重写hashCode？</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xeostream</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

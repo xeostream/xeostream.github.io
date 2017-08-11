@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="moses," />
 
 
 
@@ -94,17 +94,18 @@
 
 
 
-<meta name="description" content="stay folish, stay hungry">
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="https://xeostream.github.io/categories/index.html">
+<meta name="description" content="我的系统是Linux Mint15，64位的系统，gcc的版本是4.7.3，之后我将以此系统为例演示编译配置moses的步骤。">
+<meta name="keywords" content="moses">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mint15安装moses教程">
+<meta property="og:url" content="https://xeostream.github.io/2013/07/15/moses/index.html">
 <meta property="og:site_name" content="xeostream">
-<meta property="og:description" content="stay folish, stay hungry">
+<meta property="og:description" content="我的系统是Linux Mint15，64位的系统，gcc的版本是4.7.3，之后我将以此系统为例演示编译配置moses的步骤。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-04T07:00:51.343Z">
+<meta property="og:updated_time" content="2017-08-09T00:31:46.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="categories">
-<meta name="twitter:description" content="stay folish, stay hungry">
+<meta name="twitter:title" content="Mint15安装moses教程">
+<meta name="twitter:description" content="我的系统是Linux Mint15，64位的系统，gcc的版本是4.7.3，之后我将以此系统为例演示编译配置moses的步骤。">
 
 
 
@@ -133,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="https://xeostream.github.io/categories/"/>
+  <link rel="canonical" href="https://xeostream.github.io/2013/07/15/moses/"/>
 
 
 
 
 
-  <title>categories | xeostream</title>
+  <title>Mint15安装moses教程 | xeostream</title>
   
 
 
@@ -260,40 +261,181 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://xeostream.github.io/2013/07/15/moses/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xeostream">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xeostream">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">categories</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="category-all-page">
-            <div class="category-all-title">
-                目前共计 5 个分类
-            </div>
-            <div class="category-all">
-              <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/学习/">学习</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/技术/">技术</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/技术/rails/">rails</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/教程/">教程</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a><span class="category-list-count">1</span></li></ul>
-            </div>
-          </div>
+          <h1 class="post-title" itemprop="name headline">Mint15安装moses教程</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-07-15T23:11:20+08:00">
+                2013-07-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/教程/" itemprop="url" rel="index">
+                    <span itemprop="name">教程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p>我的系统是Linux Mint15，64位的系统，gcc的版本是4.7.3，之后我将以此系统为例演示编译配置moses的步骤。<br><a id="more"></a></p>
+<p>#安装准备工作#</p>
+<p>##安装boost及其他依赖包<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get installlibboost-all-dev build-essential libz-dev libbz2-dev</div></pre></td></tr></table></figure></p>
+<p>boost的安装包还是很大的，我尝试从boost官网下载最新版本源码在本地编译，可是在后来编译moses时会报缺失boost包的错，所以推荐使用命令安装。</p>
+<p>##从github上下载moses源码##<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> git://github.com/moses-smt/mosesdecoder.git</div></pre></td></tr></table></figure></p>
+<p>熟悉git的人应该都知道，上面的命令是将github上moses的源码下载到本地(需要安装git,具体请搜索)，git是很好的代码同步工具，推荐尝试。之前看到有些关于moses的教程，可能由于时间比较久的关系，很多的内容已经不适合，所以建议大家如果不明白的地方，多看看<a href="http://www.statmt.org/moses/" target="_blank" rel="external">官方网站</a>提供的教程，都是比较新的资料。</p>
+<p>##编译moses源码##<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> .../mosesdecoder/     <span class="comment">#之前下载的moses源码目录</span></div><div class="line">./bjam -j4      <span class="comment">#ｊ之后的数字代表的是cpu运算核心的个数，我是i5的，所以是４</span></div></pre></td></tr></table></figure></p>
+<p>编译大概需要十分钟到半小时的样子，具体时间依据电脑配置不同而变化;bjam后可以跟很多可扩展的选项，不过官网的教程说如果boost安装好的话，应该就不需要加上其他的选项了。在后面的配置过程中，也没有出现相关的问题。</p>
+<p>##验证安装是否正确##<br>首先下载测试数据<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> .../mosesdecoder</div><div class="line">wget http://www.statmt.org/moses/download/sample-models.tgz</div><div class="line">tar xzf sample-models.tgz</div><div class="line"><span class="built_in">cd</span> sample-models</div></pre></td></tr></table></figure></p>
+<p>moses自带了语言建模工具包KenLM，数据默认是配置好的，不要改动。<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> .../mosesdecoder/sample-models</div><div class="line">~/mosesdecoder/bin/moses -f phrase-model/moses.ini &lt; phrase-model/<span class="keyword">in</span> &gt; out</div></pre></td></tr></table></figure></p>
+<p>如果安装正确的话，在out文件中应该是两行it is a small house。</p>
+<p>#结语#<br>本篇介绍moses的编译工作，在接下来的博文里会继续介绍moses相关的其他工具的安装及EMS翻译系统的搭建工作。</p>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/moses/" rel="tag"># moses</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/03/26/rails-coreseek/" rel="next" title="coreseek配置rails项目全文搜索">
+                <i class="fa fa-chevron-left"></i> coreseek配置rails项目全文搜索
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/11/10/kmp/" rel="prev" title="字符串匹配算法－KMP理解">
+                字符串匹配算法－KMP理解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -302,6 +444,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -511,10 +657,10 @@
   
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
 
-  
+
 
   
 
